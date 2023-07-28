@@ -1,5 +1,7 @@
 package com.skillsoft.nestedclasseslambdas;
 
+import java.util.Objects;
+
 public class Main {
 
     private static void displayCar(Car car) {
@@ -14,81 +16,174 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Home townhome = new Home() {
+        Car lamborghini = new Car() {
 
             @Override
-            public String getCity() {
-                return "Palo Alto";
+            public String getMake() {
+                return "Lamborghini";
             }
 
             @Override
-            public int getNumberOfFloors() {
-                return 2;
-            }
-
-            @Override
-            public String getArchitecturalStyle() {
-                return "Tudor";
+            public String getModel() {
+                return "Aventador";
             }
 
             @Override
             public int getPrice() {
-                return 765000;
+                return 200000;
+            }
+
+            @Override
+            public int getMileage() {
+                return 14;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(getMake(), getModel(), getPrice(), getMileage());
+            }
+
+            @Override
+            public boolean equals(Object other) {
+                if (other == null) {
+                    return false;
+                }
+
+                if (!(other instanceof Car)) {
+                    return false;
+                }
+
+                Car otherCar = (Car) other;
+
+                if (otherCar.getMake().equals(getMake()) &&
+                        otherCar.getModel().equals(getModel()) &&
+                        otherCar.getPrice() == getPrice() &&
+                        otherCar.getMileage() == getMileage()) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("Make: %s, model: %s, price: %d, mileage: %d",
+                        getMake(), getModel(), getPrice(), getMileage());
             }
         };
 
-        System.out.println("City: " + townhome.getCity());
-        System.out.println("Number of floors: " + townhome.getNumberOfFloors());
-        System.out.println("Architectural style: " + townhome.getArchitecturalStyle());
-        System.out.println("Price: " + townhome.getPrice());
+        Car camry = new Car() {
 
-        displayHome(townhome);
+            @Override
+            public String getMake() {
+                return "Toyota";
+            }
 
-//        Car camry = new Car() {
+            @Override
+            public String getModel() {
+                return "Camry";
+            }
+
+            @Override
+            public int getPrice() {
+                return 28000;
+            }
+
+            @Override
+            public int getMileage() {
+                return 24;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(getMake(), getModel(), getPrice(), getMileage());
+            }
+
+            @Override
+            public boolean equals(Object other) {
+                if (other == null) {
+                    return false;
+                }
+
+                if (!(other instanceof Car)) {
+                    return false;
+                }
+
+                Car otherCar = (Car) other;
+
+                if (otherCar.getMake().equals(getMake()) &&
+                        otherCar.getModel().equals(getModel()) &&
+                        otherCar.getPrice() == getPrice() &&
+                        otherCar.getMileage() == getMileage()) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("Make: %s, model: %s, price: %d, mileage: %d",
+                        getMake(), getModel(), getPrice(), getMileage());
+            }
+        };
+
+        displayCar(lamborghini);
+        displayCar(camry);
+
+        System.out.println("lamborghini.equals(camry): " + lamborghini.equals(camry));
+
+//        Home mansion = new Home() {
 //
 //            @Override
-//            public String getMake() {
-//                return "Toyota";
+//            public String getCity() {
+//                return "Palo Alto";
 //            }
 //
 //            @Override
-//            public String getModel() {
-//                return "Camry";
+//            public int getNumberOfFloors() {
+//                return 2;
+//            }
+//
+//            @Override
+//            public String getArchitecturalStyle() {
+//                return "Victorian";
 //            }
 //
 //            @Override
 //            public int getPrice() {
-//                return 30000;
+//                return 5755000;
 //            }
 //
 //            @Override
-//            public int getMileage() {
-//                return 24;
+//            public int hashCode() {
+//                return Objects.hash(ge);
+//            }
+//
+//            @Override
+//            public String toString() {
+//                return String.format("City: %s, Number of floors: %s, style: %s, price: %d",
+//                        getCity(), getNumberOfFloors(), getArchitecturalStyle(), getPrice());
 //            }
 //        };
 //
-//        System.out.println("Make: " + camry.getMake());
-//        System.out.println("Model: " + camry.getModel());
-//        System.out.println("Price: " + camry.getPrice());
-//        System.out.println("Mileage: " + camry.getMileage());
-//
-//        displayCar(camry);
+//        displayCar(lamborghini);
+//        displayHome(mansion);
 
-//        Honda civic = new Honda("Civic", 28000, 25);
-//        Honda city = new Honda("City", 21000, 26);
-//        Honda jazz = new Honda("Jazz", 19000, 28);
+//        System.out.println(lamborghini.getClass());
+//        System.out.println(mansion.getClass());
 //
-//        displayCar(civic);
-//        displayCar(city);
-//        displayCar(jazz);
+//        System.out.println();
+//        System.out.println("Is lamborghini anonymous: " + lamborghini.getClass().isAnonymousClass());
+//        System.out.println("Is mansion anonymous: " + mansion.getClass().isAnonymousClass());
 //
-//        Condo nyCondo = new Condo("New York", "modern", 1000000);
-//        Condo mumbaiCondo = new Condo("Mumbai", "regency", 500000);
-//        Condo bostonCondo = new Condo("Boston", "gothic", 1500000);
+//        System.out.println();
+//        System.out.println("Is lamborghini an interface: " + lamborghini.getClass().isInterface());
+//        System.out.println("Is mansion an interface: " + mansion.getClass().isInterface());
 //
-//        displayHome(nyCondo);
-//        displayHome(mumbaiCondo);
-//        displayHome(bostonCondo);
+//        System.out.println();
+//        System.out.println("Is lamborghini an object: " + (lamborghini instanceof Object));
+//        System.out.println("Is mansion an object: " + (mansion instanceof Object));
     }
 }
 

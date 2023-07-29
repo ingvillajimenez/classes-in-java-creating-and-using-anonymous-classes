@@ -1,140 +1,154 @@
 package com.skillsoft.nestedclasseslambdas;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    private static List<Home> populateAndGetHomesList() {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.format("Current thread name: %s, priority: %d\n",
-                        Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: Thread-0, priority: 5
+        Home home1 = new Home("brownstone", "New York", 1200, 1000000);
+        Home home2 = new Home("house", "Seattle", 5200, 1500000);
+        Home home3 = new Home("townhome", "Bellevue", 3300, 500000);
+        Home home4 = new Home("condo", "Mumbai", 3500, 1000000);
+        Home home5 = new Home("villa", "Bangalore", 5400, 300000);
+        Home home6 = new Home("mansion", "Palo Alto", 7500, 10000000);
+
+        List<Home> homesList = new ArrayList<>();
+
+        homesList.add(home1);
+        homesList.add(home2);
+        homesList.add(home3);
+        homesList.add(home4);
+        homesList.add(home5);
+        homesList.add(home6);
+
+        return homesList;
+    }
+
+    private static List<Home> filter(List<Home> homesList, HomeFilter... homeFilters) {
+
+        List<Home> filteredList = new ArrayList<>();
+
+        for (Home home : homesList) {
+
+            boolean allCriteriaApplicable = true;
+
+            for (HomeFilter homeFilter : homeFilters) {
+                if (!homeFilter.test(home)) {
+                    allCriteriaApplicable = false;
+
+                    break;
+                }
             }
-        });
-        thread.start();
 
-        System.out.format("Current thread name: %s, priority: %d\n",
-                Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: main, priority: 5
+            if (allCriteriaApplicable) {
+                filteredList.add(home);
+            }
+        }
 
-//        class LocalThread extends Thread {
+        return  filteredList;
+    }
+
+//    private static List<Home> filter(List<Home> homesList, HomeFilter homeFilter) {
 //
-//            public void run() {
-//                System.out.format("Current thread name: %s, priority: %d\n",
-//                        Thread.currentThread().getName(), Thread.currentThread().getPriority());  // Current thread name: Thread-0, priority: 5
+//        List<Home> filteredlist = new ArrayList<>();
+//
+//        for (Home home : homesList) {
+//            if (homeFilter.test(home)) {
+//                filteredlist.add(home);
 //            }
 //        }
 //
-//        Thread thread = new LocalThread();
-//        thread.start();
-//
-//        System.out.format("Current thread name: %s priority: %d\n",
-//                Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: main priority: 5
+//        return filteredlist;
+//    }
 
-//        System.out.println("Current thread name: " + Thread.currentThread().getName()); // main
-//        System.out.println("Current thread priority: " + Thread.currentThread().getPriority()); // 5
+    public static void main(String[] args) {
 
-//        Home home1 = new Home("townhome", "Seattle", 2345);
-//        Home home2 = new Home("villa", "Mountain View", 1500);
-//        Home home3 = new Home("brownstone", "New York", 1200);
-//        Home home4 = new Home("condo", "Boston", 4000);
+        List<Home> homesList = populateAndGetHomesList();
+
+        System.out.println("** Original list: \n" + homesList);
+
+        List<Home> filteredList = filter(homesList, new HomeFilter() {
+            @Override
+            public boolean test(Home home) {
+                return home.getAreaSqFt() > 3000 && home.getAreaSqFt() < 5500;
+            }
+        }, new HomeFilter() {
+            @Override
+            public boolean test(Home home) {
+                return home.getPrice() < 1000000;
+            }
+        });
+
+        System.out.println("** Filtered list: \n" + filteredList);
+
+//        List<Home> homesList = populateAndGetHomesList();
 //
-//        List<Home> homesList = new ArrayList<>();
+//        System.out.println("*** Original list: \n" + homesList);
 //
-//        homesList.add(home1);
-//        homesList.add(home2);
-//        homesList.add(home3);
-//        homesList.add(home4);
-//
-//        System.out.println("**Before sorting: \n" + homesList);
-//
-//        Collections.sort(homesList, new Comparator<Home>() {
+//        List<Home> filteredList = filter(homesList, new HomeFilter() {
 //            @Override
-//            public int compare(Home o1, Home o2) {
-//                return o1.getAreaSqFt() - o2.getAreaSqFt();
+//            public boolean test(Home home) {
+//                return home.getAreaSqFt() > 3000 && home.getAreaSqFt() < 5500;
 //            }
 //        });
 //
-//        System.out.println("**After sorting: \n" + homesList);
+//        System.out.println("*** Filtered list: \n" + filteredList);
 
-//        List<String> namesList = new ArrayList<>();
+//        List<Home> homesList = populateAndGetHomesList();
 //
-//        namesList.add("John");
-//        namesList.add("Zoe");
-//        namesList.add("Alice");
-//        namesList.add("Lucy");
+//        System.out.println("*** Original list: \n" + homesList);
 //
-//        System.out.println("**Before sorting: " + namesList);
+//        class PriceHomeFilter implements HomeFilter {
 //
-//        Collections.sort(namesList, new Comparator<String>() {
 //            @Override
-//            public int compare(String o1, String o2) {
-//                return o2.compareTo(o1);
+//            public boolean test(Home home) {
+//                return home.getPrice() >= 400000 && home.getPrice() < 1100000;
 //            }
-//        });
+//        }
 //
-//        System.out.println("**After sorting: " + namesList);
+//        List<Home> filteredList = filter(homesList, new PriceHomeFilter());
+//
+//        System.out.println("*** Filtered list: \n" + filteredList);
 
-//        List<Integer> numbersList = new ArrayList<>();
+//        List<Home> homesList = populateAndGetHomesList();
 //
-//        numbersList.add(234);
-//        numbersList.add(9876);
-//        numbersList.add(100);
-//        numbersList.add(34);
-//        numbersList.add(-23);
+//        System.out.println("*** Original list: \n" + homesList);
 //
-//        System.out.println("**Before sorting: " + numbersList);
+////        List<Home> filteredList = filterByPriceInRange(homesList, 200000, 600000);
+//        List<Home> filteredList = filterByAreaSqFtInRange(homesList, 1500, 4000);
 //
-//        Comparator<Integer> descendingComparator = new Comparator<Integer>() {
-//            @Override
-//            public int compare(Integer o1, Integer o2) {
-//                return o1.compareTo(o2) * -1;
-//            }
-//        };
-//
-//        Collections.sort(numbersList, descendingComparator);
-//
-//        System.out.println("**After sorting: " + numbersList);
-
-//        System.out.println("\nB compareTo b: " + "B".compareTo("b"));
-//        System.out.println("\nz compareTo Z: " + "z".compareTo("Z"));
-
-//        System.out.println("\nA compareTo B: " + "A".compareTo("B"));
-//        System.out.println("\nA compareTo Z: " + "A".compareTo("Z"));
-//        System.out.println("\nB compareTo A: " + "B".compareTo("A"));
-//        System.out.println("\nZ compareTo A: " + "Z".compareTo("A"));
-//        System.out.println("\nC compareTo C: " + "C".compareTo("C"));
-
-//        List<Integer> numbersList = new ArrayList<>();
-//
-//        numbersList.add(234);
-//        numbersList.add(9876);
-//        numbersList.add(100);
-//        numbersList.add(34);
-//        numbersList.add(-23);
-//
-//        System.out.println("**Before sorting: " + numbersList);
-//
-//        Collections.sort(numbersList);
-//
-//        System.out.println("**After sorting: " + numbersList);
-
-
-//        List<String> namesList = new ArrayList<>();
-//
-//        namesList.add("John");
-//        namesList.add("Zoe");
-//        namesList.add("Alice");
-//        namesList.add("Lucy");
-//
-//        System.out.println("**Before sorting: " + namesList);
-//
-//        Collections.sort(namesList);
-//
-//        System.out.println("**After sorting: " + namesList);
+//        System.out.println("*** Filtered list: \n" + filteredList);
 
     }
+
+//    private static List<Home> filterByPriceInRange(List<Home> homesList, int low, int high) {
+//
+//        List<Home> filteredList = new ArrayList<>();
+//
+//        for (Home home : homesList) {
+//            if (home.getPrice() >= low && home.getPrice() < high) {
+//                filteredList.add(home);
+//            }
+//        }
+//
+//        return filteredList;
+//    }
+//
+//    private static List<Home> filterByAreaSqFtInRange(List<Home> homesList, int low, int high) {
+//
+//        List<Home> filteredList = new ArrayList<>();
+//
+//        for (Home home : homesList) {
+//            if (home.getAreaSqFt() >= low && home.getAreaSqFt() < high) {
+//                filteredList.add(home);
+//            }
+//        }
+//
+//        return filteredList;
+//    }
+
 }
 
 // Anonymous Classes

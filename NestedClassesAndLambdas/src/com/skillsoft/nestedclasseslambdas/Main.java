@@ -1,163 +1,144 @@
 package com.skillsoft.nestedclasseslambdas;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Main {
 
-//    private static void displayCar(Car car) {
-//        System.out.println("*** Displaying car");
-//        System.out.println(car);
-//    }
-//
-//    private static void displayHome(Home home) {
-//        System.out.println("*** Displaying home");
-//        System.out.println(home);
-//    }
-
     public static void main(String[] args) {
 
-        Condo condo = new Condo("Boston", "Victorian", 678000) {
-        // Anonymous class derives from the concrete Condo class
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public String getArchitecturalStyle() {
-                return "Gothic";
+            public void run() {
+                System.out.format("Current thread name: %s, priority: %d\n",
+                        Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: Thread-0, priority: 5
             }
-        };
+        });
+        thread.start();
 
-        Honda honda = new Honda("Acura", 34000, 24) {
-            // Anonymous class derives from the concrete Honda class
-            @Override
-            public int getPrice() {
-                return 30000;
-            }
-        };
+        System.out.format("Current thread name: %s, priority: %d\n",
+                Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: main, priority: 5
 
-        System.out.println(condo);
-        System.out.println(honda);
+//        class LocalThread extends Thread {
+//
+//            public void run() {
+//                System.out.format("Current thread name: %s, priority: %d\n",
+//                        Thread.currentThread().getName(), Thread.currentThread().getPriority());  // Current thread name: Thread-0, priority: 5
+//            }
+//        }
+//
+//        Thread thread = new LocalThread();
+//        thread.start();
+//
+//        System.out.format("Current thread name: %s priority: %d\n",
+//                Thread.currentThread().getName(), Thread.currentThread().getPriority()); // Current thread name: main priority: 5
 
-//        final String make = "Lamborghini"; // explicitly final
-//        final String model = "Aventador"; // explicitly final
-//        final int price = 200000; // explicitly final
-//        final int mileage = 14; // explicitly final
+//        System.out.println("Current thread name: " + Thread.currentThread().getName()); // main
+//        System.out.println("Current thread priority: " + Thread.currentThread().getPriority()); // 5
 
-//        String make = "Lamborghini"; // effectively final
-//        String model = "Aventador"; // effectively final
-//        int price = 200000; // effectively final
-//        int mileage = 14; // effectively final
+//        Home home1 = new Home("townhome", "Seattle", 2345);
+//        Home home2 = new Home("villa", "Mountain View", 1500);
+//        Home home3 = new Home("brownstone", "New York", 1200);
+//        Home home4 = new Home("condo", "Boston", 4000);
 //
-//        Car lamborghini = new Car() {
+//        List<Home> homesList = new ArrayList<>();
 //
+//        homesList.add(home1);
+//        homesList.add(home2);
+//        homesList.add(home3);
+//        homesList.add(home4);
+//
+//        System.out.println("**Before sorting: \n" + homesList);
+//
+//        Collections.sort(homesList, new Comparator<Home>() {
 //            @Override
-//            public String getMake() {
-//                return make; // Variable 'make' is accessed from within inner class, needs to be final or effectively final
+//            public int compare(Home o1, Home o2) {
+//                return o1.getAreaSqFt() - o2.getAreaSqFt();
 //            }
+//        });
 //
+//        System.out.println("**After sorting: \n" + homesList);
+
+//        List<String> namesList = new ArrayList<>();
+//
+//        namesList.add("John");
+//        namesList.add("Zoe");
+//        namesList.add("Alice");
+//        namesList.add("Lucy");
+//
+//        System.out.println("**Before sorting: " + namesList);
+//
+//        Collections.sort(namesList, new Comparator<String>() {
 //            @Override
-//            public String getModel() {
-//                return model; // Variable 'model' is accessed from within inner class, needs to be final or effectively final
+//            public int compare(String o1, String o2) {
+//                return o2.compareTo(o1);
 //            }
+//        });
 //
-//            @Override
-//            public int getPrice() {
-//                return price; // Variable 'price' is accessed from within inner class, needs to be final or effectively final
-//            }
+//        System.out.println("**After sorting: " + namesList);
+
+//        List<Integer> numbersList = new ArrayList<>();
 //
-//            @Override
-//            public int getMileage() {
-//                return mileage; // Variable 'mileage' is accessed from within inner class, needs to be final or effectively final
-//            }
+//        numbersList.add(234);
+//        numbersList.add(9876);
+//        numbersList.add(100);
+//        numbersList.add(34);
+//        numbersList.add(-23);
 //
+//        System.out.println("**Before sorting: " + numbersList);
+//
+//        Comparator<Integer> descendingComparator = new Comparator<Integer>() {
 //            @Override
-//            public String toString() {
-//                return String.format("Make: %s, model: %s, price: %d, mileage: %d",
-//                        getMake(), getModel(), getPrice(), getMileage());
+//            public int compare(Integer o1, Integer o2) {
+//                return o1.compareTo(o2) * -1;
 //            }
 //        };
 //
-//        make = "Lamborghini"; // it is no longer final
-//        model = "Huracan"; // it is no longer final
-//        price = 210000; // it is no longer final
-//        mileage = 16; // it is no longer final
+//        Collections.sort(numbersList, descendingComparator);
 //
-//        displayCar(lamborghini);
+//        System.out.println("**After sorting: " + numbersList);
 
-//        Car lamborghini = new Car() {
-//
-//            @Override
-//            public String getMake() {
-//                return "Lamborghini";
-//            }
-//
-//            @Override
-//            public String getModel() {
-//                return "Aventador";
-//            }
-//
-//            @Override
-//            public int getPrice() {
-//                return 200000;
-//            }
-//
-//            @Override
-//            public int getMileage() {
-//                return 14;
-//            }
-//
-//            public void printDetails() {
-//                System.out.println(String.format("Make: %s, model: %s, price: %d, mileage: %d\n",
-//                        getMake(), getModel(), getPrice(), getMileage());;
-//            }
-//        };
-//
-//        lamborghini.printDetails(); // Cannot resolve method 'printDetails' in 'Car'
+//        System.out.println("\nB compareTo b: " + "B".compareTo("b"));
+//        System.out.println("\nz compareTo Z: " + "z".compareTo("Z"));
 
-//      Car lamborghini = new Car() {
+//        System.out.println("\nA compareTo B: " + "A".compareTo("B"));
+//        System.out.println("\nA compareTo Z: " + "A".compareTo("Z"));
+//        System.out.println("\nB compareTo A: " + "B".compareTo("A"));
+//        System.out.println("\nZ compareTo A: " + "Z".compareTo("A"));
+//        System.out.println("\nC compareTo C: " + "C".compareTo("C"));
+
+//        List<Integer> numbersList = new ArrayList<>();
 //
-//          public String make = "Lamborghini";
-//          public String model = "Aventador";
-//          public int price = 200000;
-//          public int mileage = 14;
+//        numbersList.add(234);
+//        numbersList.add(9876);
+//        numbersList.add(100);
+//        numbersList.add(34);
+//        numbersList.add(-23);
 //
-////          String make = "Lamborghini";
-////          String model = "Aventador";
-////          int price = 200000;
-////          int mileage = 14;
+//        System.out.println("**Before sorting: " + numbersList);
 //
-//          @Override
-//          public String getMake() {
-//              return make;
-//          }
+//        Collections.sort(numbersList);
 //
-//          @Override
-//          public String getModel() {
-//              return model;
-//          }
+//        System.out.println("**After sorting: " + numbersList);
+
+
+//        List<String> namesList = new ArrayList<>();
 //
-//          @Override
-//          public int getPrice() {
-//              return price;
-//          }
+//        namesList.add("John");
+//        namesList.add("Zoe");
+//        namesList.add("Alice");
+//        namesList.add("Lucy");
 //
-//          @Override
-//          public int getMileage() {
-//              return mileage;
-//          }
+//        System.out.println("**Before sorting: " + namesList);
 //
-//          @Override
-//          public String toString() {
-//              return String.format("Make: %s, model: %s, price: %d, mileage: %d",
-//                      this.make, this.model, this.price, this.mileage);
-//          }
-//      };
+//        Collections.sort(namesList);
 //
-//      displayCar(lamborghini);
-//
-//      System.out.println("Make: " + lamborghini.make); // Cannot resolve symbol 'make'
-//      System.out.println("Model: " + lamborghini.model); // Cannot resolve symbol 'model'
-//      System.out.println("Price: " + lamborghini.price); // Cannot resolve symbol 'price'
-//      System.out.println("Mileage: " + lamborghini.mileage); // Cannot resolve symbol 'mileage'
+//        System.out.println("**After sorting: " + namesList);
+
     }
 }
 
 // Anonymous Classes
 // Nested, inner classes, defined without specifying a name for the class
+
+// compareTo() in the Comparable interface
+// current < other: negative integer, current equal to other: zero, current > other: positive integer

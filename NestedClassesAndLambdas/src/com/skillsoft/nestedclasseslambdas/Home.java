@@ -1,12 +1,31 @@
 package com.skillsoft.nestedclasseslambdas;
 
-public interface Home {
+public class Home {
 
-    String getCity();
+    private String type;
+    private String city;
+    private int areaSqFt;
 
-    int getNumberOfFloors();
+    public Home(String type, String city, int areaSqFt) {
+        this.type = type;
+        this.city = city;
+        this.areaSqFt = areaSqFt;
+    }
 
-    String getArchitecturalStyle();
+    public String getType() {
+        return type;
+    }
 
-    int getPrice();
+    public String getCity() {
+        return city;
+    }
+
+    public int getAreaSqFt() {
+        return areaSqFt;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("\nType: %s, city: %s, area: %d", type, city, areaSqFt);
+    }
 }
